@@ -1,24 +1,25 @@
 import { CheckIcon } from '../../assets/icons';
+import type { StepOptionType, StepType } from '../../types';
 
 type StepperProps = {
-  steps: { number: number; label: string }[];
-  currentStep: number;
+  steps: StepOptionType[];
+  currentStep: StepType;
 };
 
 const Stepper = ({ steps, currentStep }: StepperProps) => {
   return (
     <div className="flex gap-3">
       {steps.map((step, index) => {
-        const isCompleted = step.number < currentStep;
-        const isActive = step.number === currentStep;
-        const isUpcoming = step.number > currentStep;
+        const isCompleted = steps.findIndex((s) => s.name === currentStep) > index;
+        const isActive = step.name === currentStep;
+        const isUpcoming = !isCompleted && !isActive;
 
         return (
           <div key={step.number} className="flex w-44 items-center gap-2">
             <div
               className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[12px] ${isCompleted && 'bg-gray-dark text-white'} ${isActive && 'bg-primary text-white'} ${isUpcoming && 'bg-gray text-gray-dark'}`}
             >
-              {isCompleted ? <CheckIcon /> : step.number}
+              {isCompleted ? <CheckIcon /> : index + 1}
             </div>
 
             <span className={`${isCompleted && 'text-gray-dark'} ${isActive && 'text-black-b1 font-semibold'} ${isUpcoming && 'text-black-b1'}`}>
