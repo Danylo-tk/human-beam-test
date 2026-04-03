@@ -25,9 +25,15 @@ function App() {
         <Button>Sign up</Button>
       </header>
 
-      <main>
-        {currentStep === 'organisation' && <OrganisationStep />}
-        {currentStep === 'knowledge' && <KnowledgeStep />}
+      <main className="flex justify-center">
+        <div className="grid w-full max-w-3xl grid-cols-9 py-10">
+          <div className="col-span-5">
+            {currentStep === 'organisation' && <OrganisationStep />}
+            {currentStep === 'knowledge' && <KnowledgeStep />}
+          </div>
+
+          <div className="col-span-4 bg-red-100">Video Player</div>
+        </div>
       </main>
     </>
   );

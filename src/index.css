@@ -9,3 +9,9 @@
 
   --color-black-b1: #1c2024;
 }
+
+@layer base {
+  body {
+    color: var(--color-black-b1);
+  }
+}
