@@ -28,7 +28,7 @@ function App() {
       <main className="flex justify-center">
         <div className="grid w-full max-w-3xl grid-cols-9 py-10">
           <div className="col-span-5">
-            {currentStep === 'organisation' && <OrganisationStep />}
+            {currentStep === 'organisation' && <OrganisationStep onContinue={() => setCurrentStep('knowledge')} />}
             {currentStep === 'knowledge' && <KnowledgeStep />}
           </div>
 
