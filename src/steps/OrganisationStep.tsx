@@ -1,16 +1,31 @@
+import { Controller } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
 import TextInput from '../components/TextInput';
+import type { FormDataType } from '../App';
 import Button from '../components/Button';
 import AvatarTypeSelector from '../components/AvatarTypeSelector';
 import OrganisationIconUpload from '../components/OrganisationIconUpload';
-import { useState } from 'react';
 
 type OrganisationStepProps = {
+  form: UseFormReturn<FormDataType>;
   onContinue: () => void;
 };
 
-const OrganisationStep = ({ onContinue }: OrganisationStepProps) => {
-  const [orgIcon, setOrgIcon] = useState<File | null>(null);
-  const [orgIconPreview, setOrgIconPreview] = useState<string | null>(null);
+const OrganisationStep = ({ form, onContinue }: OrganisationStepProps) => {
+  const {
+    register,
+    setValue,
+    watch,
+    formState: { errors },
+  } = form;
+  const organisationIcon = watch('organisationIcon');
+
+  const handleContinue = () => {
+    // validate only current screen fields before proceeding
+    form.trigger(['organisationName', 'avatarType']).then((valid) => {
+      if (valid) onContinue();
+    });
+  };
 
   return (
     <div className="flex flex-col gap-12">
@@ -21,26 +36,30 @@ const OrganisationStep = ({ onContinue }: OrganisationStepProps) => {
           <p className="text-sm font-medium">Your Organisation Icon</p>
 
           <OrganisationIconUpload
-            preview={orgIconPreview}
-            onChange={(file, preview) => {
-              setOrgIcon(file);
-              setOrgIconPreview(preview);
-            }}
-            onDelete={() => {
-              setOrgIcon(null);
-              setOrgIconPreview(null);
-            }}
+            preview={organisationIcon ? URL.createObjectURL(organisationIcon) : null}
+            onChange={(file) => setValue('organisationIcon', file)}
+            onDelete={() => setValue('organisationIcon', null)}
           />
         </div>
 
-        <TextInput label="Organisation Name" placeholder="Your organisation" />
+        <TextInput
+          label="Organisation Name"
+          placeholder="Your organisation"
+          error={errors.organisationName?.message}
+          {...register('organisationName', { required: 'Organisation name is required' })}
+        />
 
-        <AvatarTypeSelector value="education" onChange={() => console.log('')} />
+        <Controller
+          control={form.control}
+          name="avatarType"
+          rules={{ required: 'Please select an avatar type' }}
+          render={({ field, fieldState }) => <AvatarTypeSelector value={field.value} onChange={field.onChange} error={fieldState.error?.message} />}
+        />
       </div>
 
       <div className="flex gap-2">
         <Button variant="secondary">← Go Back</Button>
-        <Button onClick={onContinue}>Continue →</Button>
+        <Button onClick={handleContinue}>Continue →</Button>
       </div>
     </div>
   );

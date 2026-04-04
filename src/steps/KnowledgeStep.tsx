@@ -4,20 +4,35 @@ import TextInput from '../components/TextInput';
 import Accordion from '../components/Accordion';
 import TextArea from '../components/TextArea';
 import FileUpload from '../components/FileUpload';
+import type { FormDataType } from '../App';
+import type { UseFormReturn } from 'react-hook-form';
 
 type SectionName = 'description' | 'keyConcepts' | 'examples' | 'commonMistakes' | 'approvedReferences';
 
 type KnowledgeStepProps = {
+  form: UseFormReturn<FormDataType>;
   onBack: () => void;
   onContinue: () => void;
 };
 
-const KnowledgeStep = ({ onBack, onContinue }: KnowledgeStepProps) => {
+const KnowledgeStep = ({ form, onBack, onContinue }: KnowledgeStepProps) => {
   const [openSection, setOpenSection] = useState<SectionName | null>('description');
-  const [files, setFiles] = useState<File[]>([]);
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = form;
+  const supportingFiles = watch('supportingFiles');
 
   const toggle = (section: SectionName) => {
     setOpenSection((prev) => (prev === section ? null : section));
+  };
+
+  const handleContinue = () => {
+    form.trigger(['moduleName', 'moduleDescription', 'keyConcepts', 'examples', 'commonMistakes', 'approvedReferences']).then((valid) => {
+      if (valid) onContinue();
+    });
   };
 
   return (
@@ -25,27 +40,72 @@ const KnowledgeStep = ({ onBack, onContinue }: KnowledgeStepProps) => {
       <h1 className="text-xl font-medium">Your Avatar Knowledge Base</h1>
 
       <div className="flex flex-col gap-4">
-        <TextInput label="Module Name" placeholder="e.g. Mental Health Nursing" />
+        <TextInput
+          label="Module Name"
+          placeholder="e.g. Mental Health Nursing"
+          error={errors.moduleName?.message}
+          {...register('moduleName', { required: 'Module name is required' })}
+        />
 
         <div className="flex flex-col gap-2">
-          <Accordion label="Module Description" isOpen={openSection === 'description'} onToggle={() => toggle('description')}>
-            <TextArea placeholder="What the course teaches + outcomes" />
+          <Accordion
+            label="Module Description"
+            isOpen={openSection === 'description'}
+            onToggle={() => toggle('description')}
+            error={!!errors.moduleDescription}
+          >
+            <TextArea
+              placeholder="What the course teaches + outcomes"
+              error={errors.moduleDescription?.message}
+              {...register('moduleDescription', { required: 'Module description is required' })}
+            />
           </Accordion>
 
-          <Accordion label="Key Concepts & Definitions" isOpen={openSection === 'keyConcepts'} onToggle={() => toggle('keyConcepts')}>
-            <TextArea placeholder="e.g. Key terms + their definitions" />
+          <Accordion
+            label="Key Concepts & Definitions"
+            isOpen={openSection === 'keyConcepts'}
+            onToggle={() => toggle('keyConcepts')}
+            error={!!errors.keyConcepts}
+          >
+            <TextArea
+              placeholder="e.g. Key terms + their definitions"
+              error={errors.keyConcepts?.message}
+              {...register('keyConcepts', { required: 'Key concepts are required' })}
+            />
           </Accordion>
 
-          <Accordion label="Examples / Case Examples" isOpen={openSection === 'examples'} onToggle={() => toggle('examples')}>
-            <TextArea placeholder="Real scenarios that illustrate key concepts" />
+          <Accordion label="Examples / Case Examples" isOpen={openSection === 'examples'} onToggle={() => toggle('examples')} error={!!errors.examples}>
+            <TextArea
+              placeholder="Real scenarios that illustrate key concepts"
+              error={errors.examples?.message}
+              {...register('examples', { required: 'Examples are required' })}
+            />
           </Accordion>
 
-          <Accordion label="Common Student Mistakes" isOpen={openSection === 'commonMistakes'} onToggle={() => toggle('commonMistakes')}>
-            <TextArea placeholder="Typical errors + how to avoid them" />
+          <Accordion
+            label="Common Student Mistakes"
+            isOpen={openSection === 'commonMistakes'}
+            onToggle={() => toggle('commonMistakes')}
+            error={!!errors.commonMistakes}
+          >
+            <TextArea
+              placeholder="Typical errors + how to avoid them"
+              error={errors.commonMistakes?.message}
+              {...register('commonMistakes', { required: 'Common Mistakes concepts are required' })}
+            />
           </Accordion>
 
-          <Accordion label="Approved References" isOpen={openSection === 'approvedReferences'} onToggle={() => toggle('approvedReferences')}>
-            <TextArea placeholder="Books, guidelines, or papers to cite" />
+          <Accordion
+            label="Approved References"
+            isOpen={openSection === 'approvedReferences'}
+            onToggle={() => toggle('approvedReferences')}
+            error={!!errors.approvedReferences}
+          >
+            <TextArea
+              placeholder="Books, guidelines, or papers to cite"
+              error={errors.approvedReferences?.message}
+              {...register('approvedReferences', { required: 'approvedReferences concepts are required' })}
+            />
           </Accordion>
         </div>
 
@@ -70,7 +130,7 @@ const KnowledgeStep = ({ onBack, onContinue }: KnowledgeStepProps) => {
             ))}
           </ul>
 
-          <FileUpload files={files} onChange={setFiles} />
+          <FileUpload files={supportingFiles} onChange={(files) => setValue('supportingFiles', files)} />
         </div>
       </div>
 
@@ -78,7 +138,7 @@ const KnowledgeStep = ({ onBack, onContinue }: KnowledgeStepProps) => {
         <Button onClick={onBack} variant="secondary">
           ← Go Back
         </Button>
-        <Button onClick={onContinue}>Continue →</Button>
+        <Button onClick={handleContinue}>Continue →</Button>
       </div>
     </div>
   );
