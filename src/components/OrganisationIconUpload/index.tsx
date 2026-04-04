@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import Button from '../Button';
+import toast from 'react-hot-toast';
 
 const ACCEPTED_FORMATS = '.png,.jpeg,.jpg,.heic,.gif';
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
@@ -18,7 +19,8 @@ const OrganisationIconUpload = ({ preview, onChange, onDelete }: OrganisationIco
     if (!file) return;
 
     if (file.size > MAX_SIZE) {
-      alert('File size must be under 5MB');
+      toast.error(`"${file.name}" exceeds 5MB limit`);
+
       return;
     }
 

@@ -6,6 +6,7 @@ import Stepper from './components/Stepper';
 import OrganisationStep from './steps/OrganisationStep';
 import KnowledgeStep from './steps/KnowledgeStep';
 import type { StepOptionType, StepType } from './types';
+import { Toaster } from 'react-hot-toast';
 
 const steps: StepOptionType[] = [
   { name: 'organisation', number: 1, label: 'Organisation' },
@@ -17,6 +18,8 @@ function App() {
 
   return (
     <>
+      <Toaster position="top-right" containerStyle={{ top: 80 }} />
+
       <header className="border-gray sticky top-0 z-10 flex justify-between border-b bg-white p-3">
         <img alt="Human Beam logo" src={logoImg} />
 

@@ -3,6 +3,7 @@ import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import Accordion from '../components/Accordion';
 import TextArea from '../components/TextArea';
+import FileUpload from '../components/FileUpload';
 
 type SectionName = 'description' | 'keyConcepts' | 'examples' | 'commonMistakes' | 'approvedReferences';
 
@@ -13,6 +14,7 @@ type KnowledgeStepProps = {
 
 const KnowledgeStep = ({ onBack, onContinue }: KnowledgeStepProps) => {
   const [openSection, setOpenSection] = useState<SectionName | null>('description');
+  const [files, setFiles] = useState<File[]>([]);
 
   const toggle = (section: SectionName) => {
     setOpenSection((prev) => (prev === section ? null : section));
@@ -50,7 +52,7 @@ const KnowledgeStep = ({ onBack, onContinue }: KnowledgeStepProps) => {
         <div>
           <p className="font-medium">Supporting Documents & Materials</p>
           <p className="text-gray-g3 py-1 text-[12px]">Upload text-only documents (no images or tables) in PDF or DOC format.</p>
-          <ul className="text-gray-g3 list-outside list-disc pl-5 text-[12px]">
+          <ul className="text-gray-g3 list-outside list-disc pb-2 pl-5 text-[12px]">
             {[
               'Syllabus (so your avatar understand your entire course)',
               'Module teaching materials',
@@ -67,6 +69,8 @@ const KnowledgeStep = ({ onBack, onContinue }: KnowledgeStepProps) => {
               </li>
             ))}
           </ul>
+
+          <FileUpload files={files} onChange={setFiles} />
         </div>
       </div>
 
