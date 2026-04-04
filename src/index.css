@@ -4,8 +4,13 @@
   --color-primary: #3e63dd;
   --color-primary-dark: #5a77d6;
 
+  --color-blue-b1: #edf2fe;
+  --color-blue-b2: #3358d4;
+  --color-blue-b3: #d2deff;
+
   --color-gray: #e5e5e5;
   --color-gray-dark: #646464;
+  --color-gray-g3: #838383;
 
   --color-black-b1: #1c2024;
 }
@@ -13,5 +18,6 @@
 @layer base {
   body {
     color: var(--color-black-b1);
+    font-size: 14px;
   }
 }

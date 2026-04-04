@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <header className="border-gray flex justify-between border-b p-3">
+      <header className="border-gray sticky top-0 z-10 flex justify-between border-b bg-white p-3">
         <img alt="Human Beam logo" src={logoImg} />
 
         <Stepper steps={steps} currentStep={currentStep} />
@@ -29,7 +29,7 @@ function App() {
         <div className="grid w-full max-w-3xl grid-cols-9 py-10">
           <div className="col-span-5">
             {currentStep === 'organisation' && <OrganisationStep onContinue={() => setCurrentStep('knowledge')} />}
-            {currentStep === 'knowledge' && <KnowledgeStep />}
+            {currentStep === 'knowledge' && <KnowledgeStep onBack={() => setCurrentStep('organisation')} onContinue={() => console.log('submit')} />}
           </div>
 
           <div className="col-span-4 bg-red-100">Video Player</div>
