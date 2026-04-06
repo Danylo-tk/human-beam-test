@@ -18,7 +18,7 @@ type KnowledgeStepProps = {
 };
 
 const KnowledgeStep = ({ form, onBack, onContinue }: KnowledgeStepProps) => {
-  const [openSection, setOpenSection] = useState<SectionName | null>('description');
+  const [openSection, setOpenSection] = useState<SectionName | null>(null);
   const {
     register,
     watch,
@@ -120,7 +120,7 @@ const KnowledgeStep = ({ form, onBack, onContinue }: KnowledgeStepProps) => {
 
         <div>
           <p className="font-medium">Supporting Documents & Materials</p>
-          <p className="text-gray-g3 py-1 text-[12px]">Upload text-only documents (no images or tables) in PDF or DOC format.</p>
+          <p className="text-gray-g3 py-1 text-[12px]">Upload text-only documents (no images or tables) in PDF, TXT, or MD format.</p>
           <ul className="text-gray-g3 list-outside list-disc pb-2 pl-5 text-[12px]">
             {[
               'Syllabus (so your avatar understand your entire course)',

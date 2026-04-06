@@ -8,7 +8,7 @@ import KnowledgeStep from './steps/KnowledgeStep';
 import type { FormDataType, StepOptionType, StepType } from './types';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
-import { buildPrompt } from './utils/propmts';
+import { buildPrompt } from './utils/prompts';
 import { createTavusPersona, generateSystemPrompt } from './utils/api';
 import { AlertIcon } from './assets/icons';
 
@@ -40,22 +40,27 @@ function App() {
   });
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    console.log('submit data: ', data);
+    const prompt = buildPrompt(data.avatarType || 'course', data);
+
+    let systemPrompt: string;
+    try {
+      systemPrompt = await toast.promise(generateSystemPrompt(prompt), {
+        loading: 'Request to OpenAI sent.\n\nGenerating system prompt…',
+        success: 'System prompt ready',
+        error: 'Failed to generate system prompt',
+      });
+    } catch {
+      return;
+    }
 
     try {
-      const prompt = buildPrompt(data.avatarType || 'course', data);
-      const systemPrompt = await generateSystemPrompt(prompt);
-
-      console.log('System Prompt: ', systemPrompt);
-
-      await createTavusPersona(data.organisationName, systemPrompt);
-
-      toast.success('Persona created successfully!');
-    } catch (error) {
-      console.log('Error: ', error);
-      toast.error('Something went wrong. Please try again');
-    } finally {
-      // setIsLoading(false);
+      await toast.promise(createTavusPersona(data.organisationName, systemPrompt), {
+        loading: 'Creating Tavus persona…',
+        success: 'Persona created successfully!',
+        error: 'Failed to create Tavus persona',
+      });
+    } catch {
+      return;
     }
   });
 

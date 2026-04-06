@@ -15,8 +15,6 @@ export const generateSystemPrompt = async (prompt: string): Promise<string> => {
 
   const data = await response.json();
 
-  console.log('ChatGPT response data: ', data);
-
   return data.choices[0].message.content;
 };
 
