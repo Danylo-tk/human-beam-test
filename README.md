@@ -36,3 +36,5 @@ The app will be available at `http://localhost:5173`.
 | --------------------- | --------------------------------------------------------- |
 | `VITE_OPENAI_API_KEY` | OpenAI API key used to generate the persona system prompt |
 | `VITE_TAVUS_API_KEY`  | Tavus API key used to create the persona                  |
+
+![Screenshot](public/screenshot.png)

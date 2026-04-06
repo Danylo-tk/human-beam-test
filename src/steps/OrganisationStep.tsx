@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import TextInput from '../components/TextInput';
@@ -12,13 +13,12 @@ type OrganisationStepProps = {
 };
 
 const OrganisationStep = ({ form, onContinue }: OrganisationStepProps) => {
+  const [iconPreview, setIconPreview] = useState<string | null>(null);
   const {
     register,
     setValue,
-    watch,
     formState: { errors },
   } = form;
-  const organisationIcon = watch('organisationIcon');
 
   const handleContinue = () => {
     // validate only current screen fields before proceeding
@@ -36,9 +36,15 @@ const OrganisationStep = ({ form, onContinue }: OrganisationStepProps) => {
           <p className="text-sm font-medium">Your Organisation Icon</p>
 
           <OrganisationIconUpload
-            preview={organisationIcon ? URL.createObjectURL(organisationIcon) : null}
-            onChange={(file) => setValue('organisationIcon', file)}
-            onDelete={() => setValue('organisationIcon', null)}
+            preview={iconPreview}
+            onChange={(file, preview) => {
+              setValue('organisationIcon', file);
+              setIconPreview(preview);
+            }}
+            onDelete={() => {
+              setValue('organisationIcon', null);
+              setIconPreview(null);
+            }}
           />
         </div>
 

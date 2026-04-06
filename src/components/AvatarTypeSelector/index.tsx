@@ -33,7 +33,7 @@ const AvatarTypeSelector = ({ value, onChange, error }: AvatarTypeSelectorProps)
     <div className="flex flex-col gap-2">
       <p className="font-medium">Select Avatar Type</p>
       {avatarOptions.map((avatar) => (
-        <AvatarTypeOption avatar={avatar} selected={value === avatar.value} onClick={() => onChange(avatar.value)} />
+        <AvatarTypeOption key={avatar.value} avatar={avatar} selected={value === avatar.value} onClick={() => onChange(avatar.value)} />
       ))}
       {error && <p className="text-xs text-red-500">{error}</p>}
     </div>

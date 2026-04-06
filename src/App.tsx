@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './App.css';
 import logoImg from './assets/HB-logo.svg';
 import Button from './components/Button';
 import Stepper from './components/Stepper';
