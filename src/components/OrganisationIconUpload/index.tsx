@@ -19,7 +19,7 @@ const OrganisationIconUpload = ({ preview, onChange, onDelete }: OrganisationIco
     if (!file) return;
 
     if (file.size > MAX_SIZE) {
-      toast.error(`"${file.name}" exceeds 5MB limit`);
+      toast.error('That’s a big one! Try a file smaller than 5MB.');
 
       return;
     }

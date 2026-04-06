@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 
 type TextInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  label: string;
+  label: React.ReactNode;
   error?: string;
 };
 

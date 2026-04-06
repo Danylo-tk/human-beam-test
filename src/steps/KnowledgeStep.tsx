@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import Button from '../components/Button';
-import TextInput from '../components/TextInput';
-import Accordion from '../components/Accordion';
-import TextArea from '../components/TextArea';
-import FileUpload from '../components/FileUpload';
-import type { FormDataType } from '../App';
 import type { UseFormReturn } from 'react-hook-form';
+import type { FormDataType } from '../types';
+import Button from '../components/Button';
+import TextArea from '../components/TextArea';
+import Accordion from '../components/Accordion';
+import TextInput from '../components/TextInput';
+import FileUpload from '../components/FileUpload';
+import Tooltip from '../components/Tooltip';
+import { InfoIcon } from '../assets/icons';
 
 type SectionName = 'description' | 'keyConcepts' | 'examples' | 'commonMistakes' | 'approvedReferences';
 
@@ -36,12 +38,19 @@ const KnowledgeStep = ({ form, onBack, onContinue }: KnowledgeStepProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col gap-10">
       <h1 className="text-xl font-medium">Your Avatar Knowledge Base</h1>
 
       <div className="flex flex-col gap-4">
         <TextInput
-          label="Module Name"
+          label={
+            <span className="flex items-center gap-1">
+              Module Name
+              <Tooltip text="Your AI is trained per module to be able to guide your students one chapter at a time">
+                <InfoIcon />
+              </Tooltip>
+            </span>
+          }
           placeholder="e.g. Mental Health Nursing"
           error={errors.moduleName?.message}
           {...register('moduleName', { required: 'Module name is required' })}

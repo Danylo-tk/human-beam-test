@@ -25,7 +25,7 @@ const FileUpload = ({ files, onChange }: FileUploadProps) => {
 
     const valid = selected.filter((file) => {
       if (file.size > MAX_SIZE) {
-        toast.error(`"${file.name}" exceeds 2MB limit`);
+        toast.error('That’s a big one! Try a file smaller than 2MB.');
 
         return false;
       }

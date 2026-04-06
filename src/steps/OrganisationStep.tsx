@@ -1,10 +1,10 @@
 import { Controller } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import TextInput from '../components/TextInput';
-import type { FormDataType } from '../App';
 import Button from '../components/Button';
 import AvatarTypeSelector from '../components/AvatarTypeSelector';
 import OrganisationIconUpload from '../components/OrganisationIconUpload';
+import type { FormDataType } from '../types';
 
 type OrganisationStepProps = {
   form: UseFormReturn<FormDataType>;
@@ -28,7 +28,7 @@ const OrganisationStep = ({ form, onContinue }: OrganisationStepProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col gap-10">
       <h1 className="text-xl font-medium">Which Best Describes Your Use Case?</h1>
 
       <div className="flex flex-col gap-6">

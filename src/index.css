@@ -13,8 +13,12 @@
   --color-gray-dark: #646464;
   --color-gray-g3: #838383;
   --color-gray-g4: #e0e0e0;
+  --color-gray-g5: #f0f0f3;
+  --color-gray-g6: #60646c;
 
   --color-black-b1: #1c2024;
+
+  --color-red-r1: #dc3e42;
 }
 
 @layer base {
